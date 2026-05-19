@@ -1,0 +1,209 @@
+---
+title: "Class 08: Breast Cancer Mini Project"
+author: "Steven Studdard (PID: A19123470)"
+format: pdf
+toc: true
+---
+
+## Background
+
+The goal of this mini-project is for us to explore a complete analysis using the unsupervised learning techniques overed in class.
+
+Today we will analyze a biopsy data-set from a fine needle aspriation (FNA) of a breast mass. 
+
+## Data Import
+
+The data is made available as a CSV file for download. We can read this in using `read.csv()`:
+
+```{r}
+fna.data <-  read.csv("WisconsinCancer.csv")
+
+wisc.df <- data.frame(fna.data, row.names=1)
+
+head(wisc.df, 4)
+```
+
+```{r}
+wisc.data <- wisc.df[,-1]
+
+diagnosis <- as.factor(wisc.df$diagnosis)
+```
+
+>Q1. How many observations are in this dataset?
+
+```{r}
+nrow(wisc.data)
+```
+
+>Q2. How many of the observations have a malignant diagnosis?
+
+```{r}
+table(wisc.df$diagnosis)["M"]
+```
+
+>Q3. How many variables/features in the data are suffixed with _mean?
+
+```{r}
+length(grep("_mean",colnames(wisc.data)))
+```
+
+## Principal Component Analysis (PCA)
+
+We need to scale oru data before PCA with the `scale=TRUE` argument to `prcomp()`.
+
+```{r}
+wisc.pr <- prcomp(wisc.data, scale=T)
+summary(wisc.pr)
+```
+
+>Q4. From your results, what proportion of the original variance is captured by the first principal component (PC1)?
+
+About 44% of the original variance is captured in PC1. 
+
+>Q5. How many principal components (PCs) are required to describe at least 70% of the original variance in the data?
+
+Up to PC3 is required to describe at least 70% of the original variance in the data. 
+
+>Q6. How many principal components (PCs) are required to describe at least 90% of the original variance in the data?
+
+Up to PC7 is required to describe at least 90% of the original variance in the data.
+
+>Q7. What stands out to you about this plot? Is it easy or difficult to understand? Why?
+
+It stands out because its a massive cluster of information. The biplot is almost impossible to understand for me. It is just a large clutter of information without anyway to actually read it.  
+
+```{r}
+biplot(wisc.pr)
+```
+
+Let's see the "PC score plot"
+```{r}
+library(ggplot2)
+
+ggplot(wisc.pr$x)+
+  aes(PC1, PC2, col=diagnosis)+
+  geom_point()
+```
+
+>Q8. Generate a similar plot for principal components 1 and 3. What do you notice about these plots?
+
+The two plots look quite similar other than the fact the scaling on the y axis where PC2/PC3 is different. There also seems to be more red dots overlapped with the blue than in the first PC2 plot. 
+
+```{r}
+ggplot(wisc.pr$x)+
+  aes(PC1, PC3, col=diagnosis)+
+  geom_point()
+```
+
+Checking Out Variance
+
+```{r}
+attributes(wisc.pr)
+pr.var <- wisc.pr$sdev^2
+head(pr.var)
+```
+
+```{r}
+# Variance explained by each principal component: pve
+pve <- pr.var / sum(pr.var)
+
+# Plot variance explained for each principal component
+plot(c(1,pve), xlab = "Principal Component", 
+     ylab = "Proportion of Variance Explained", 
+     ylim = c(0, 1), type = "o")
+```
+>Q9. For the first principal component, what is the component of the loading vector (i.e. wisc.pr$rotation[,1]) for the feature concave.points_mean? This tells us how much this original feature contributes to the first PC. Are there any features with larger contributions than this one?
+
+```{r}
+wisc.pr$rotation["concave.points_mean", 1]
+
+sort(abs(wisc.pr$rotation[,1]), decreasing = TRUE)
+```
+
+## H Clust
+
+```{r}
+data.scaled <- scale(wisc.data)
+data.dist <- dist(data.scaled)
+wisc.hclust <- hclust(data.dist, method="complete")
+```
+
+>Q10. Using the plot() and abline() functions, what is the height at which the clustering model has 4 clusters?
+
+Looking at the plot below it seems that around height 18 it would create 4 clusters. 
+
+```{r}
+plot(wisc.hclust)
+abline(h=18, col="red", lty=2)
+```
+
+```{r}
+wisc.hclust.clusters <- cutree(wisc.hclust, k=4)
+table(wisc.hclust.clusters, diagnosis)
+```
+>Q12. Which method gives your favorite results for the same data.dist dataset? Explain your reasoning.
+
+I think I prefer looking at the hclust plot tree from the wisc.hclust data set we made from data.dist. It gives a much more visible tree to create an abline and decine the amount of clusters. It gives the same information, but in a cleaner format. 
+
+## Combining Methods
+
+```{r}
+d<-dist(wisc.pr$x[,1:4])
+wisc.pr.hclust <- hclust(d, method="ward.D2")
+plot(wisc.pr.hclust)
+abline(h=70, col="red")
+```
+
+```{r}
+grps <- cutree(wisc.pr.hclust, h=70)
+table(grps)
+```
+How does tihs clustering `grps` correspond to the expert `diagnosis`?
+
+```{r}
+table(diagnosis)
+```
+```{r}
+table(diagnosis, grps)
+```
+```{r}
+ggplot(wisc.pr$x) +
+  aes(PC1, PC2) +
+  geom_point(col=grps)
+```
+>Q13. How well does the newly created hclust model with two clusters separate out the two “M” and “B” diagnoses?
+
+I'd say that it does do better. I say this because instead of having a tree with 4 clusters, we can instead see on this plot above that there is two distinct clusters. 
+
+>Q14. How well do the hierarchical clustering models you created in the previous sections (i.e. without first doing PCA) do in terms of separating the diagnoses? Again, use the table() function to compare the output of each model (wisc.hclust.clusters and wisc.pr.hclust.clusters) with the vector containing the actual diagnoses.
+
+Looking at the table below. I can generally say the mixed method is closer to the expert diagnosis than the hclust method alone. Both methods are relatively close, but pr.hclust is just slightly more alligned with the experts. 
+
+```{r}
+table(wisc.hclust.clusters, diagnosis)
+##Grps is same as wisc.pr.hclust.clusters 
+table(grps, diagnosis)
+table(diagnosis)
+```
+
+
+## Prediction
+
+```{r}
+#url <- "new_samples.csv"
+url <- "https://tinyurl.com/new-samples-CSV"
+new <- read.csv(url)
+npc <- predict(wisc.pr, newdata=new)
+npc
+```
+
+```{r}
+plot(wisc.pr$x[,1:2], col=grps)
+points(npc[,1], npc[,2], col="blue", pch=16, cex=3)
+text(npc[,1], npc[,2], c(1,2), col="white")
+```
+
+>Q16. Which of these new patients should we prioritize for follow up based on your results?
+
+We should follow up with patient 2 as it seems that they are more likely to have a malignant tumor when i view the predicted results. 
+
