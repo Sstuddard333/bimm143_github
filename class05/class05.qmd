@@ -1,0 +1,204 @@
+---
+title: "Class 5: Data Viz with ggplot2"
+author: "Steven Studdard (PID: A19123470)"
+format: pdf
+toc: true
+---
+
+## Background
+
+There are many graphics systems in R for making plots and figures. These include so-called *"base R" graphics* like the `plot()` function and add on packages like **ggplot2**. 
+
+Let's compare how we make a simple figure with these two systems: 
+
+We can use the in-built `cars` dataset:
+
+```{r}
+head(cars)
+```
+```{r}
+plot(cars)
+```
+
+Before I can use ggplot2 I needto install it on my computer. 
+To do this we can use the function `install.packages("ggplot2")`
+
+> **N.B.** We never run `install.packages()` in our quarto doc (we run it once only in our console) as it would re-install the package every time we render our quarto report. 
+
+```{r}
+library(ggplot2)
+```
+
+
+The Main function in the **ggplot** package is called `ggplot()`.
+
+Every ggplot has at least 3 layers
+
+-the **data** (a data frame if the stuff we want to plot))
+-the **aes**thetics (how the data maps to the plot)
+-the "**geom** layer" (how you want the plot drawn, e.g points, lines, etc) 
+
+```{r}
+
+ggplot(data = cars)+
+  aes(speed, dist)+
+  geom_point()
+
+```
+
+## Add some custom features 
+
+Let's add a trend line that shows the relationship between speed and distance. 
+
+```{r}
+
+ggplot(data = cars)+
+  aes(x = speed, y = dist)+
+  geom_point()+
+  geom_smooth(se = FALSE, method = lm, col = 'yellow')+
+  theme_minimal()+
+  labs(title="Stopping Dist of Old Cars", 
+       x = "Speed (MPH)", 
+       y = "Distance (ft)")
+
+```
+
+
+Q. Can you make the `geom_smooth()` function produce a linear straight line fit to teh data and t urn off the "gray" error region.
+
+---
+
+## Import a Gene 
+
+
+```{r}
+url <- "https://bioboot.github.io/bimm143_S20/class-material/up_down_expression.txt"
+genes <- read.delim(url)
+head(genes, 5)
+```
+
+```{r}
+sum(genes$State == "up")
+
+```
+A useful new function in this context is the `table()` function:
+
+```{r}
+table(genes$State)
+```
+
+First plot attempt
+
+```{r}
+ggplot(genes)+
+  aes(Condition1, Condition2, col = State)+
+  scale_color_manual(values = c("turquoise", "gray", "violet"))+
+  geom_point()+
+  theme_bw()+
+  labs(x="No drug", y="Drug",
+       title="Expression cahnges upon GLP-1 inhibitor treatment")
+```
+
+## Going Further
+
+Here we read the famous gapmider dataset:
+
+```{r}
+url <- "https://raw.githubusercontent.com/jennybc/gapminder/master/inst/extdata/gapminder.tsv"
+
+gapminder <- read.delim(url)
+head(gapminder)
+```
+
+>Q. How many entries (i.e rows) are in this dataset?
+
+```{r}
+nrow(gapminder)
+```
+
+>Q. How many different "country" entries are in this data set. 
+
+```{r}
+length(table(gapminder$country))
+```
+```{r}
+length(unique(gapminder$country))
+```
+
+Let's make our first plot of the entire dataset:
+
+Plot of "gdpPercap" vs "ifeExp" colored by "continent" 
+
+```{r}
+p <- ggplot(gapminder)+
+  aes(gdpPercap, lifeExp, col = continent)+
+  geom_point(alpha=0.3)
+
+p
+```
+
+I can add more layers to `p`
+```{r}
+p +
+  facet_wrap(~gapminder$continent)
+```
+
+Make a plot for 1977 and 2007 only (not all the years in the dataset). 
+
+First use the **dplyr** package and the `filter()` function from that package to extract the year 2007.
+
+```{r, message=FALSE, warning=FALSE}
+library(dplyr)
+```
+
+```{r}
+g07 <- filter(gapminder, year == 2007)
+g77 <- filter(gapminder, year == 1977)
+g <- filter(gapminder, year == 2007 | year == 1997)
+```
+
+```{r}
+ggplot(g)+
+  aes(gdpPercap, lifeExp, col=continent, size=pop)+
+  geom_point()+
+  facet_wrap(~year)
+```
+>Q. Make a histogram of lifeExp colored by continent (try using `fill=continent` or `col=continent`)
+>Q. Make a histogram of lifeExp facted by continent
+
+```{r}
+ggplot(gapminder)+
+  aes(lifeExp, fill=continent)+
+  geom_histogram()
+```
+```{r}
+ggplot(gapminder)+
+  aes(lifeExp, col=continent)+
+  facet_wrap(~continent)+
+  geom_histogram()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
