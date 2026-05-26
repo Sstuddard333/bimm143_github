@@ -24,6 +24,6 @@ Class 11:[Structural Bioinformatics with AlphaFold2]()
 
 Class 12: [Genome Informatics and High Throughput Sequencing (NGS, RNA-Seq, and FastQC]()
 
-Class 13: [Transcriptomics and RNA-Seq Analysis) 
+Class 13: [Transcriptomics and RNA-Seq Analysis]() 
 
 Class 14: [RNA-Seq Analysis and Functional Annotation (KEGG, InterPro and GO)]()
