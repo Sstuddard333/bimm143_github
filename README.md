@@ -12,18 +12,18 @@ Class 6: [Creating R Functions and Using R Packages](class06/class06.md)
 
 _Using R in Conjuction with Other Tools_
 
-Class 7: [Introduction to Machine Learning (Hierarchical Clustering)]()
+Class 7: [Introduction to Machine Learning (Hierarchical Clustering)](class07/Class07.md)
 
-Class 8: [Analyzing High-Dimensional Datasets and Unsupervised Learning]()
+Class 8: [Analyzing High-Dimensional Datasets and Unsupervised Learning](class08/class08.md)
 
-Class 9: [Practical Considerations of Analysis and Visualization for Higher Dimensional Datasets]()
+Class 9: [Practical Considerations of Analysis and Visualization for Higher Dimensional Datasets](class09/class09.md)
 
-Class 10:[Structural Bioinformatics Analyzing Protein Structure and Function with BIO3D]()
+Class 10:[Structural Bioinformatics Analyzing Protein Structure and Function with BIO3D](class10/class10.md)
 
-Class 11:[Structural Bioinformatics with AlphaFold2]()
+Class 11:[Structural Bioinformatics with AlphaFold2](class11/class11.md)
 
 Class 12: [Genome Informatics and High Throughput Sequencing (NGS, RNA-Seq, and FastQC]()
 
-Class 13: [Transcriptomics and RNA-Seq Analysis]() 
+Class 13: [Transcriptomics and RNA-Seq Analysis](class13/class13.md) 
 
-Class 14: [RNA-Seq Analysis and Functional Annotation (KEGG, InterPro and GO)]()
+Class 14: [RNA-Seq Analysis and Functional Annotation (KEGG, InterPro and GO)](class14/class14.md)
