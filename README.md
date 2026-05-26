@@ -4,11 +4,11 @@ My classwork from [BIMM143 at UC San Diego Spring 2026](https://bioboot.github.i
 ## Index of Material
 _Introductory Material_
 
-Class 4: [Introduction to R]()
+Class 4: [Introduction to R](class04/class04.pdf)
 
-Class 5: [Data Visualization with ggplot2]()
+Class 5: [Data Visualization with ggplot2](class05/class05.html)
 
-Class 6: [Creating R Functions]()
+Class 6: [Creating R Functions](class06/class06.qmd)
 
 Class 7: [R Packages, Working with CRAN and Bioconductor]()
 
