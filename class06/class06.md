@@ -80,7 +80,7 @@ A useful function here is the “base R” `sample()` function:
 sample(1:5, size=10, replace = TRUE)
 ```
 
-     [1] 2 2 1 4 3 3 4 2 1 3
+     [1] 4 4 1 5 5 5 4 4 3 2
 
 We can use this to make a random nucleotide sequence if we draw from
 “A”, “C”, “G”, and “T”…
@@ -89,7 +89,7 @@ We can use this to make a random nucleotide sequence if we draw from
 sample(x=c("A","C","G","T"), size = 10, replace = TRUE)
 ```
 
-     [1] "G" "A" "A" "G" "A" "G" "G" "G" "G" "C"
+     [1] "T" "A" "G" "G" "C" "A" "C" "A" "T" "A"
 
 > Q2a: Write a generate_dna() function.
 
@@ -101,7 +101,7 @@ generate_dna <- function(len){
 generate_dna(10)
 ```
 
-     [1] "A" "G" "G" "C" "A" "G" "G" "T" "T" "A"
+     [1] "A" "G" "C" "C" "G" "T" "T" "C" "G" "A"
 
 > Q2b:
 
@@ -123,13 +123,13 @@ generate_dna <- function(len, single.element = TRUE){
 generate_dna(10, FALSE)
 ```
 
-     [1] "G" "A" "C" "G" "A" "A" "C" "T" "C" "C"
+     [1] "C" "G" "A" "A" "A" "A" "A" "A" "G" "A"
 
 ``` r
 generate_dna(10, TRUE)
 ```
 
-    [1] "AGCATCCCAT"
+    [1] "TGTACCACGT"
 
 > Q2c:
 
@@ -150,7 +150,7 @@ generate_dna(44)
 ```
 
     >len44
-    CTCCGTATACCCGAGAGGTGGGGGATACGGTCAATCCGGCAACT
+    GCACGACCCACGTTCTTACTGGGATAGGAGTGTGCTAATCAGGA
 
 > Q3
 
@@ -176,7 +176,7 @@ generate_protein(20)
 ```
 
     >len20
-    YHHVGWTVDYQVWNYVIRPC
+    CVIIPEKFMTTQYVLDPRVA
 
 > Q4
 
@@ -188,21 +188,21 @@ for(l in 6:13){
 ```
 
     >len6
-    PNLLCA 
+    QATPMK 
     >len7
-    MDYCNAI 
+    TWAPNYI 
     >len8
-    AQVDDVSN 
+    RCFLKHQA 
     >len9
-    PTTNGITWS 
+    FVDEWAWRW 
     >len10
-    MRCRSLCNCE 
+    ADQGPHKVTF 
     >len11
-    VTNVMIINSFG 
+    CSILFPTCKEL 
     >len12
-    PCYEGYMEFFYP 
+    KVFKTYWWVHTY 
     >len13
-    LIFEQWFVDCPHH 
+    MYGNSRTAMVQQC 
 
 > Q5
 

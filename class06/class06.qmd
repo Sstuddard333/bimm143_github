@@ -1,7 +1,7 @@
 ---
 title: "Class 6: R Functions"
 author: "Steven Studdard (PID: A19123470)"
-format: pdf
+format: gfm
 toc: true
 ---
 
