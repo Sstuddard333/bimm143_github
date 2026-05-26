@@ -6,11 +6,11 @@ _Introductory Material_
 
 Class 4: [Introduction to R](class04/class04.pdf)
 
-Class 5: [Data Visualization in R with ggplot2](class05/class05.html)
+Class 5: [Data Visualization in R with ggplot2](class05/class05.md)
 
-Class 6: [Creating R Functions](class06/class06.qmd)
+Class 6: [Creating R Functions](class06/class06.md)
 
-Class 7: [R Packages, Working with CRAN and Bioconductor]()
+Class 7: [R Packages, Working with CRAN and Bioconductor](class07/class06.md)
 
 _Using R in Conjuction with Other Tools_
 
