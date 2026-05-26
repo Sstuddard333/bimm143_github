@@ -14,8 +14,8 @@ Steven Studdard (PID: A19123470)
 The goal of this mini-project is for us to explore a complete analysis
 using the unsupervised learning techniques overed in class.
 
-Today we will analyze a biopsy data-set from a fine needle aspriation
-(FNA) of a breast mass.
+Today we will analyze a biopsy data-set from a fine needle aspiration
+(FNA) of a breast mass..
 
 ## Data Import
 

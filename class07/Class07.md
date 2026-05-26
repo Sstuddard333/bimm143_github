@@ -23,7 +23,7 @@ popular in bioinformatics. These include **clustering** and
 The main function in “base” R for K-means clustering is called \`kmeans
 
 Before we get too deep let’s make up some “simple” data that we cam
-cluster amd know if we are getting a good answer or not. To do this we
+cluster and know if we are getting a good answer or not. To do this we
 an use the `rnorm()` function:
 
 ``` r
